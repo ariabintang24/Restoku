@@ -1,0 +1,58 @@
+import { Document, model, Schema, Types } from "mongoose";
+
+export interface IRestaurant extends Document {
+  name: string;
+  slug: string;
+  description: string;
+  cuisine: string;
+  priceRange: "$" | "$$" | "$$$" | "$$$$";
+  rating: number;
+  reviewCount: number;
+  location: string;
+  address: string;
+  image: string;
+  chef: string;
+  tags: string[];
+  availableSlots: string[];
+  featured: boolean;
+  exclusive: boolean;
+  owner: Types.ObjectId;
+  status: "pending" | "rejected" | "approved";
+  totalSeats: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const RestaurantSchema = new Schema<IRestaurant>(
+  {
+    name: { type: String, required: true, trim: true },
+    slug: { type: String, required: true, trim: true, lowercase: true },
+    description: { type: String, required: true },
+    cuisine: { type: String, required: true, trim: true },
+    priceRange: {
+      type: String,
+      enum: ["$", "$$", "$$$", "$$$$"],
+      required: true,
+    },
+    rating: { type: Number, deafult: 5.0, min: 1, max: 5 },
+    reviewCount: { type: Number, default: 0 },
+    location: { type: String, required: true, trim: true },
+    address: { type: String, required: true },
+    image: { type: String, deafult: "" },
+    chef: { type: String, required: true },
+    tags: { type: [String] },
+    availableSlots: { type: [String] },
+    featured: { type: Boolean, deafult: false },
+    exclusive: { type: Boolean, deafult: false },
+    owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    status: {
+      type: String,
+      enum: ["pending", "rejected", "approved"],
+      default: "pending",
+    },
+    totalSeats: { type: Number, deafult: 20 },
+  },
+  { timestamps: true },
+);
+
+export const Restaurant = model<IRestaurant>("Restaurant", RestaurantSchema);
