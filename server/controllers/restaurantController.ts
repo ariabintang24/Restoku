@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Restaurant } from "../models/Restaurant.js";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
-import { Boooking } from "../models/Booking.js";
+import { Booking } from "../models/Booking.js";
 
 // Get all restaurants with search and filters
 // Get /api/restaurants
@@ -166,7 +166,7 @@ export const getRestaurantAvailability = async (
     const bookingDate = new Date(date as string);
 
     // Get all active bookings on this date for the restaurant
-    const bookings = await Boooking.find({
+    const bookings = await Booking.find({
       restaurant: restaurant._id,
       date: bookingDate,
       status: "confirmed",

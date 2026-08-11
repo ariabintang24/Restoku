@@ -45,4 +45,4 @@ BookingSchema.pre("save", function () {
   }
 });
 
-export const Boooking = model<IBooking>("Booking", BookingSchema);
+export const Booking = model<IBooking>("Booking", BookingSchema);
